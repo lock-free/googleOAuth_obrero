@@ -31,8 +31,6 @@ type GoogleUser struct {
 
 type AppConfig struct {
 	GoogleOAuthConfig oauth2.Config
-	LoginEndPoint     string
-	CallbackEndPoint  string
 }
 
 func main() {
@@ -52,29 +50,25 @@ func main() {
 				return "googleOAuth_obrero", nil
 			}),
 
-			"getLoginEndPoint": gopcp.ToSandboxFun(func(args []interface{}, attachment interface{}, pcpServer *gopcp.PcpServer) (interface{}, error) {
-				return appConfig.LoginEndPoint, nil
-			}),
-
-			"getCallbackEndPoint": gopcp.ToSandboxFun(func(args []interface{}, attachment interface{}, pcpServer *gopcp.PcpServer) (interface{}, error) {
-				return appConfig.LoginEndPoint, nil
-			}),
-
-			// (constructOAuthUrl, callbackHost)
+			// (constructOAuthUrl, callbackHost, callbackEndPoint)
 			"constructOAuthUrl": gopcp.ToSandboxFun(func(args []interface{}, attachment interface{}, pcpServer *gopcp.PcpServer) (interface{}, error) {
-				if len(args) < 1 {
-					return nil, errors.New("missing callbackHost parameter")
+				if len(args) < 2 {
+					return nil, errors.New("missing callbackHost or callbackEndPoint parameter")
 				}
 				callbackHost, ok := args[0].(string)
 				if !ok {
 					return nil, errors.New("wrong type of callbackHost parameter")
+				}
+				callbackEndPoint, ok := args[1].(string)
+				if !ok {
+					return nil, errors.New("wrong type of callbackEndPoint parameter")
 				}
 				// copy and change redirect
 				var goc = oauth2.Config{
 					ClientID:     googleOAuthConfig.ClientID,
 					ClientSecret: googleOAuthConfig.ClientSecret,
 					Endpoint:     googleOAuthConfig.Endpoint,
-					RedirectURL:  callbackHost + "/oauth/google/callback?host=" + callbackHost,
+					RedirectURL:  callbackHost + callbackEndPoint + "?host=" + callbackHost,
 					Scopes:       googleOAuthConfig.Scopes,
 				}
 
@@ -82,9 +76,9 @@ func main() {
 				return goc.AuthCodeURL("state"), nil
 			}),
 
-			// (getUserInfo, callbackHost, url)
+			// (getUserInfo, callbackHost, url, callbackEndPoint)
 			"getUserInfo": gopcp.ToSandboxFun(func(args []interface{}, attachment interface{}, pcpServer *gopcp.PcpServer) (interface{}, error) {
-				if len(args) < 2 {
+				if len(args) < 3 {
 					return nil, errors.New("missing callbackHost or url parameter")
 				}
 				callbackHost, ok := args[0].(string)
@@ -95,13 +89,16 @@ func main() {
 				if !ok {
 					return nil, errors.New("wrong type of url parameter")
 				}
-
+				callbackEndPoint, ok := args[2].(string)
+				if !ok {
+					return nil, errors.New("wrong type of callbackEndPoint parameter")
+				}
 				// copy and change redirect
 				var goc = oauth2.Config{
 					ClientID:     googleOAuthConfig.ClientID,
 					ClientSecret: googleOAuthConfig.ClientSecret,
 					Endpoint:     googleOAuthConfig.Endpoint,
-					RedirectURL:  callbackHost + appConfig.LoginEndPoint + "?host=" + callbackHost,
+					RedirectURL:  callbackHost + callbackEndPoint + "?host=" + callbackHost,
 					Scopes:       googleOAuthConfig.Scopes,
 				}
 
