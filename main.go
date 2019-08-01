@@ -47,7 +47,7 @@ func main() {
 	obrero.StartBlockWorker(func(*gopcp_stream.StreamServer) *gopcp.Sandbox {
 		return gopcp.GetSandbox(map[string]*gopcp.BoxFunc{
 			"getServiceType": gopcp.ToSandboxFun(func(args []interface{}, attachment interface{}, pcpServer *gopcp.PcpServer) (interface{}, error) {
-				return "googleOAuth_obrero", nil
+				return "google_oauth_obrero", nil
 			}),
 
 			// (constructOAuthUrl, callbackHost, callbackEndPoint)
