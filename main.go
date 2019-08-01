@@ -8,6 +8,7 @@ import (
 	"github.com/lock-free/gopcp_stream"
 	"github.com/lock-free/obrero"
 	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -67,7 +68,7 @@ func main() {
 				var goc = oauth2.Config{
 					ClientID:     googleOAuthConfig.ClientID,
 					ClientSecret: googleOAuthConfig.ClientSecret,
-					Endpoint:     googleOAuthConfig.Endpoint,
+					Endpoint:     google.Endpoint,
 					RedirectURL:  callbackHost + callbackEndPoint + "?host=" + callbackHost,
 					Scopes:       googleOAuthConfig.Scopes,
 				}
@@ -97,7 +98,7 @@ func main() {
 				var goc = oauth2.Config{
 					ClientID:     googleOAuthConfig.ClientID,
 					ClientSecret: googleOAuthConfig.ClientSecret,
-					Endpoint:     googleOAuthConfig.Endpoint,
+					Endpoint:     google.Endpoint,
 					RedirectURL:  callbackHost + callbackEndPoint + "?host=" + callbackHost,
 					Scopes:       googleOAuthConfig.Scopes,
 				}
