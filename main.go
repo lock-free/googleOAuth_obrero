@@ -7,6 +7,7 @@ import (
 	"github.com/lock-free/gopcp"
 	"github.com/lock-free/gopcp_stream"
 	"github.com/lock-free/obrero"
+	"github.com/lock-free/obrero/utils"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"io/ioutil"
@@ -37,7 +38,7 @@ type AppConfig struct {
 func main() {
 	// read conf
 	var appConfig AppConfig
-	err := obrero.ReadJson(APP_CONFIG, &appConfig)
+	err := utils.ReadJson(APP_CONFIG, &appConfig)
 
 	if err != nil {
 		panic(err)
