@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/lock-free/gopcp"
 	"github.com/lock-free/gopcp_stream"
@@ -101,6 +102,7 @@ func GetUserInfoFromGoogle(conf *oauth2.Config, uri string) (googleUser interfac
 		u        *url.URL
 		token    *oauth2.Token
 		response *http.Response
+		content  []byte
 	)
 	u, err = url.Parse(uri)
 	if err != nil {
@@ -139,11 +141,13 @@ func GetUserInfoFromGoogle(conf *oauth2.Config, uri string) (googleUser interfac
 	//   "locale": "en",
 	//   "hd": "aaaa"
 	// }
-	googleUser, err = ioutil.ReadAll(response.Body)
+	content, err = ioutil.ReadAll(response.Body)
 	if err != nil {
 		err = fmt.Errorf("failed reading response body: %s", err.Error())
 		return
 	}
 	fmt.Printf("Get user info from Google, content = %s", googleUser)
+
+	err = json.Unmarshal(content, googleUser)
 	return
 }
