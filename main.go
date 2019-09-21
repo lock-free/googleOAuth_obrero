@@ -155,6 +155,8 @@ func GetUserInfoFromGoogle(conf *oauth2.Config, uri string) (googleUser GoogleUs
 		return
 	}
 
+	fmt.Printf("Get user info from Google, content = %s", content)
+
 	err = json.Unmarshal([]byte(content), &googleUser)
 
 	return
