@@ -148,6 +148,6 @@ func GetUserInfoFromGoogle(conf *oauth2.Config, uri string) (googleUser interfac
 	}
 	fmt.Printf("Get user info from Google, content = %s", googleUser)
 
-	err = json.Unmarshal(content, googleUser)
+	err = json.Unmarshal(content, &googleUser)
 	return
 }
