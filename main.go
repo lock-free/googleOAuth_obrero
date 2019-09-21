@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"github.com/lock-free/gopcp"
 	"github.com/lock-free/gopcp_stream"
@@ -54,17 +53,16 @@ func main() {
 
 			// (constructOAuthUrl, callbackHost, callbackEndPoint)
 			"constructOAuthUrl": gopcp.ToSandboxFun(func(args []interface{}, attachment interface{}, pcpServer *gopcp.PcpServer) (interface{}, error) {
-				if len(args) < 2 {
-					return nil, errors.New("missing callbackHost or callbackEndPoint parameter")
+				var (
+					callbackHost     string
+					callbackEndPoint string
+				)
+
+				err := utils.ParseArgs(args, []interface{}{&callbackHost, &callbackEndPoint}, "wrong signature, expect (constructOAuthUrl, callbackHost: String, callbackEndPoint: String)")
+				if err != nil {
+					return nil, err
 				}
-				callbackHost, ok := args[0].(string)
-				if !ok {
-					return nil, errors.New("wrong type of callbackHost parameter")
-				}
-				callbackEndPoint, ok := args[1].(string)
-				if !ok {
-					return nil, errors.New("wrong type of callbackEndPoint parameter")
-				}
+
 				// copy and change redirect
 				var goc = oauth2.Config{
 					ClientID:     googleOAuthConfig.ClientID,
@@ -80,21 +78,17 @@ func main() {
 
 			// (getUserInfo, callbackHost, url, callbackEndPoint)
 			"getUserInfo": gopcp.ToSandboxFun(func(args []interface{}, attachment interface{}, pcpServer *gopcp.PcpServer) (interface{}, error) {
-				if len(args) < 3 {
-					return nil, errors.New("missing callbackHost or url parameter")
+				var (
+					callbackHost     string
+					uri              string
+					callbackEndPoint string
+				)
+
+				err := utils.ParseArgs(args, []interface{}{&callbackHost, &uri, &callbackEndPoint}, "wrong signature, expect (getUserInfo, callbackHost: String, uri: String, callbackEndPoint: String)")
+				if err != nil {
+					return nil, err
 				}
-				callbackHost, ok := args[0].(string)
-				if !ok {
-					return nil, errors.New("wrong type of callbackHost parameter")
-				}
-				uri, ok := args[1].(string)
-				if !ok {
-					return nil, errors.New("wrong type of url parameter")
-				}
-				callbackEndPoint, ok := args[2].(string)
-				if !ok {
-					return nil, errors.New("wrong type of callbackEndPoint parameter")
-				}
+
 				// copy and change redirect
 				var goc = oauth2.Config{
 					ClientID:     googleOAuthConfig.ClientID,
