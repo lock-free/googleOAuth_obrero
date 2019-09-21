@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/lock-free/gopcp"
 	"github.com/lock-free/gopcp_stream"
@@ -16,19 +15,6 @@ import (
 )
 
 const APP_CONFIG = "/data/app.json"
-
-type GoogleUser struct {
-	ID            string
-	Email         string
-	VerifiedEmail string
-	Name          string
-	GivenName     string
-	FamilyName    string
-	Link          string
-	Picture       string
-	Locale        string
-	HD            string
-}
 
 type AppConfig struct {
 	GoogleOAuthConfig oauth2.Config
@@ -110,12 +96,11 @@ func main() {
 }
 
 // call this to get user when callback
-func GetUserInfoFromGoogle(conf *oauth2.Config, uri string) (googleUser GoogleUser, err error) {
+func GetUserInfoFromGoogle(conf *oauth2.Config, uri string) (googleUser interface{}, err error) {
 	var (
 		u        *url.URL
 		token    *oauth2.Token
 		response *http.Response
-		content  []byte
 	)
 	u, err = url.Parse(uri)
 	if err != nil {
@@ -143,15 +128,22 @@ func GetUserInfoFromGoogle(conf *oauth2.Config, uri string) (googleUser GoogleUs
 	}
 
 	defer response.Body.Close()
-	content, err = ioutil.ReadAll(response.Body)
+	// content = {
+	//   "id": "123",
+	//   "email": "a@gmail.com",
+	//   "verified_email": true,
+	//   "name": "aaa",
+	//   "given_name": "aa",
+	//   "family_name": "aaa",
+	//   "picture": "https://lh6.googleusercontent.com/dd/cc/bbaaa/photo.jpg",
+	//   "locale": "en",
+	//   "hd": "aaaa"
+	// }
+	googleUser, err = ioutil.ReadAll(response.Body)
 	if err != nil {
 		err = fmt.Errorf("failed reading response body: %s", err.Error())
 		return
 	}
-
-	fmt.Printf("Get user info from Google, content = %s", content)
-
-	err = json.Unmarshal([]byte(content), &googleUser)
-
+	fmt.Printf("Get user info from Google, content = %s", googleUser)
 	return
 }
