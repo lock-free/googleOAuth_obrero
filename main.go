@@ -96,13 +96,10 @@ func main() {
 	})
 }
 
-// call this to get user when callback
-func GetUserInfoFromGoogle(conf *oauth2.Config, uri string) (googleUser interface{}, err error) {
+func GetAccessToken(conf *oauth2.Config, uri string) (accessToken string, err error) {
 	var (
-		u        *url.URL
-		token    *oauth2.Token
-		response *http.Response
-		content  []byte
+		u     *url.URL
+		token *oauth2.Token
 	)
 	u, err = url.Parse(uri)
 	if err != nil {
@@ -122,8 +119,23 @@ func GetUserInfoFromGoogle(conf *oauth2.Config, uri string) (googleUser interfac
 		err = fmt.Errorf("code exchange failed: %s", err.Error())
 		return
 	}
+	accessToken = token.AccessToken
+	return
+}
 
-	response, err = http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
+// call this to get user when callback
+func GetUserInfoFromGoogle(conf *oauth2.Config, uri string) (googleUser interface{}, err error) {
+	var (
+		response    *http.Response
+		accessToken string
+		content     []byte
+	)
+	accessToken, err = GetAccessToken(conf, uri)
+	if err != nil {
+		return
+	}
+
+	response, err = http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + accessToken)
 	if err != nil {
 		err = fmt.Errorf("failed getting user info: %s", err.Error())
 		return
