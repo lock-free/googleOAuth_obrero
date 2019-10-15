@@ -6,8 +6,16 @@
   name = "cloud.google.com/go"
   packages = ["compute/metadata"]
   pruneopts = "UT"
-  revision = "264def2dd949cdb8a803bb9f50fa29a67b798a6a"
-  version = "v0.46.3"
+  revision = "cfe8f6d1fe6976d03af790d7a8b9bf6aa73287bd"
+  version = "v0.47.0"
+
+[[projects]]
+  digest = "1:aacef5f5e45685f2aeda5534d0a750dee6859de7e9088cdd06192787bb01ae6d"
+  name = "github.com/go-errors/errors"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "a6af135bd4e28680facf08a3d206b454abc877a4"
+  version = "v1.0.1"
 
 [[projects]]
   digest = "1:573ca21d3669500ff845bdebee890eb7fc7f0f50c59f2132f2a0c6b03d85086a"
@@ -24,6 +32,14 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "9d53a70585c6663b54f9ce6dfbfce7259ad09e25"
+
+[[projects]]
+  branch = "master"
+  digest = "1:65264f842ddf245067a9c31e3b1e1d5bcd9e75e5b027ce168d979a5e0d85fd4a"
+  name = "github.com/lock-free/goklog"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "ee6028c56a50021f7683c0d721d4775459c7aeed"
 
 [[projects]]
   branch = "master"
@@ -59,15 +75,17 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:1056d8a490019ff65b05b2160906780b93d73b3148a8188861d2c75a96d57587"
+  digest = "1:0ef4a0f474338fd80b293e583f777160d4ea3686ab1aefaa322c1d2cdc2547e0"
   name = "github.com/lock-free/obrero"
   packages = [
     ".",
+    "mids",
     "napool",
+    "stdserv",
     "utils",
   ]
   pruneopts = "UT"
-  revision = "18ec4f3e2ea040542ff23bba713ac861092ac42a"
+  revision = "8a76e12570501506afd3508f5e1dfbc84424dc9a"
 
 [[projects]]
   digest = "1:274f67cb6fed9588ea2521ecdac05a6d62a8c51c074c1fccc6a49a40ba80e925"
@@ -86,7 +104,7 @@
     "context/ctxhttp",
   ]
   pruneopts = "UT"
-  revision = "a8b05e9114ab0cb08faec337c959aed24b68bf50"
+  revision = "da9a3fd4c5820e74b24a6cb7fb438dc9b0dd377c"
 
 [[projects]]
   branch = "master"
@@ -103,7 +121,7 @@
   revision = "0f29369cfe4552d0e4bcddc57cc75f4d7e672a33"
 
 [[projects]]
-  digest = "1:498b722d33dde4471e7d6e5d88a5e7132d2a8306fea5ff5ee82d1f418b4f41ed"
+  digest = "1:3c03b58f57452764a4499c55c582346c0ee78c8a5033affe5bdfd9efd3da5bd1"
   name = "google.golang.org/appengine"
   packages = [
     ".",
@@ -118,8 +136,8 @@
     "urlfetch",
   ]
   pruneopts = "UT"
-  revision = "5f2a59506353b8d5ba8cbbcd9f3c1f41f1eaf079"
-  version = "v1.6.2"
+  revision = "971852bfffca25b069c31162ae8f247a3dba083b"
+  version = "v1.6.5"
 
 [solve-meta]
   analyzer-name = "dep"
@@ -127,7 +145,10 @@
   input-imports = [
     "github.com/lock-free/gopcp",
     "github.com/lock-free/gopcp_stream",
-    "github.com/lock-free/obrero",
+    "github.com/lock-free/obrero/napool",
+    "github.com/lock-free/obrero/stdserv",
+    "github.com/lock-free/obrero/utils",
+    "golang.org/x/net/context",
     "golang.org/x/oauth2",
     "golang.org/x/oauth2/google",
   ]

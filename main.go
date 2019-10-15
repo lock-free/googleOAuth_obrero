@@ -5,14 +5,15 @@ import (
 	"fmt"
 	"github.com/lock-free/gopcp"
 	"github.com/lock-free/gopcp_stream"
-	"github.com/lock-free/obrero"
+	"github.com/lock-free/obrero/napool"
+	"github.com/lock-free/obrero/stdserv"
 	"github.com/lock-free/obrero/utils"
+	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"time"
 )
 
 const APP_CONFIG = "/data/app.json"
@@ -22,22 +23,9 @@ type AppConfig struct {
 }
 
 func main() {
-	// read conf
 	var appConfig AppConfig
-	err := utils.ReadJson(APP_CONFIG, &appConfig)
-
-	if err != nil {
-		panic(err)
-	}
-
-	var googleOAuthConfig = appConfig.GoogleOAuthConfig
-
-	obrero.StartBlockWorker(func(*gopcp_stream.StreamServer) *gopcp.Sandbox {
-		return gopcp.GetSandbox(map[string]*gopcp.BoxFunc{
-			"getServiceType": gopcp.ToSandboxFun(func(args []interface{}, attachment interface{}, pcpServer *gopcp.PcpServer) (interface{}, error) {
-				return "google_oauth_obrero", nil
-			}),
-
+	stdserv.StartStdWorker(&appConfig, func(naPools *napool.NAPools, s *gopcp_stream.StreamServer) map[string]*gopcp.BoxFunc {
+		return map[string]*gopcp.BoxFunc{
 			// (constructOAuthUrl, callbackHost, callbackEndPoint)
 			"constructOAuthUrl": gopcp.ToSandboxFun(func(args []interface{}, attachment interface{}, pcpServer *gopcp.PcpServer) (interface{}, error) {
 				var (
@@ -50,6 +38,7 @@ func main() {
 					return nil, err
 				}
 
+				var googleOAuthConfig = appConfig.GoogleOAuthConfig
 				// copy and change redirect
 				var goc = oauth2.Config{
 					ClientID:     googleOAuthConfig.ClientID,
@@ -76,6 +65,7 @@ func main() {
 					return nil, err
 				}
 
+				var googleOAuthConfig = appConfig.GoogleOAuthConfig
 				// copy and change redirect
 				var goc = oauth2.Config{
 					ClientID:     googleOAuthConfig.ClientID,
@@ -87,19 +77,15 @@ func main() {
 
 				return GetUserInfoFromGoogle(&goc, uri)
 			}),
-		})
-	}, obrero.WorkerStartConf{
-		PoolSize:            2,
-		Duration:            20 * time.Second,
-		RetryDuration:       20 * time.Second,
-		NAGetClientMaxRetry: 3,
+		}
+	}, stdserv.StdWorkerConfig{
+		ServiceName: "google_oauth_obrero",
 	})
 }
 
-func GetAccessToken(conf *oauth2.Config, uri string) (accessToken string, err error) {
+func GetAccessToken(conf *oauth2.Config, uri string) (token *oauth2.Token, err error) {
 	var (
-		u     *url.URL
-		token *oauth2.Token
+		u *url.URL
 	)
 	u, err = url.Parse(uri)
 	if err != nil {
@@ -115,27 +101,30 @@ func GetAccessToken(conf *oauth2.Config, uri string) (accessToken string, err er
 	}
 
 	token, err = conf.Exchange(oauth2.NoContext, code)
-	if err != nil {
-		err = fmt.Errorf("code exchange failed: %s", err.Error())
-		return
-	}
-	accessToken = token.AccessToken
 	return
+}
+
+func GetGoogleClient(conf *oauth2.Config, uri string) (*http.Client, error) {
+	token, err := GetAccessToken(conf, uri)
+	if err != nil {
+		return nil, err
+	}
+	return conf.Client(context.Background(), token), nil
 }
 
 // call this to get user when callback
 func GetUserInfoFromGoogle(conf *oauth2.Config, uri string) (googleUser interface{}, err error) {
 	var (
-		response    *http.Response
-		accessToken string
-		content     []byte
+		response *http.Response
+		token    *oauth2.Token
+		content  []byte
 	)
-	accessToken, err = GetAccessToken(conf, uri)
+	token, err = GetAccessToken(conf, uri)
 	if err != nil {
 		return
 	}
 
-	response, err = http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + accessToken)
+	response, err = http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
 	if err != nil {
 		err = fmt.Errorf("failed getting user info: %s", err.Error())
 		return
