@@ -83,7 +83,7 @@ func main() {
 	})
 }
 
-func GetAccessToken(conf *oauth2.Config, uri string) (token *oauth2.Token, err error) {
+func GetToken(conf *oauth2.Config, uri string) (token *oauth2.Token, err error) {
 	var (
 		u *url.URL
 	)
@@ -105,7 +105,7 @@ func GetAccessToken(conf *oauth2.Config, uri string) (token *oauth2.Token, err e
 }
 
 func GetGoogleClient(conf *oauth2.Config, uri string) (*http.Client, error) {
-	token, err := GetAccessToken(conf, uri)
+	token, err := GetToken(conf, uri)
 	if err != nil {
 		return nil, err
 	}
@@ -119,7 +119,7 @@ func GetUserInfoFromGoogle(conf *oauth2.Config, uri string) (googleUser interfac
 		token    *oauth2.Token
 		content  []byte
 	)
-	token, err = GetAccessToken(conf, uri)
+	token, err = GetToken(conf, uri)
 	if err != nil {
 		return
 	}
