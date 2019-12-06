@@ -6,8 +6,8 @@
   name = "cloud.google.com/go"
   packages = ["compute/metadata"]
   pruneopts = "UT"
-  revision = "cfe8f6d1fe6976d03af790d7a8b9bf6aa73287bd"
-  version = "v0.47.0"
+  revision = "d1ee711ee996fa74abaffbdb572963f368f215a9"
+  version = "v0.49.0"
 
 [[projects]]
   digest = "1:aacef5f5e45685f2aeda5534d0a750dee6859de7e9088cdd06192787bb01ae6d"
@@ -75,7 +75,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:0ef4a0f474338fd80b293e583f777160d4ea3686ab1aefaa322c1d2cdc2547e0"
+  digest = "1:12cf7c08e9226f3f1b9dbb85a901d6314b36e4cf0d121f7eeaf1d6607099f9c5"
   name = "github.com/lock-free/obrero"
   packages = [
     ".",
@@ -85,7 +85,7 @@
     "utils",
   ]
   pruneopts = "UT"
-  revision = "8a76e12570501506afd3508f5e1dfbc84424dc9a"
+  revision = "1bc354721a4a27b72ec2eb1f8b817abab5dcdf80"
 
 [[projects]]
   digest = "1:274f67cb6fed9588ea2521ecdac05a6d62a8c51c074c1fccc6a49a40ba80e925"
@@ -104,11 +104,11 @@
     "context/ctxhttp",
   ]
   pruneopts = "UT"
-  revision = "da9a3fd4c5820e74b24a6cb7fb438dc9b0dd377c"
+  revision = "5ee1b9f4859acd2e99987ef94ec7a58427c53bef"
 
 [[projects]]
   branch = "master"
-  digest = "1:31e33f76456ccf54819ab4a646cf01271d1a99d7712ab84bf1a9e7b61cd2031b"
+  digest = "1:e9dec12f847de7d8cd7c1d3d0d89aa40a345a768fd20e10d378a260da9ad65aa"
   name = "golang.org/x/oauth2"
   packages = [
     ".",
@@ -118,7 +118,7 @@
     "jwt",
   ]
   pruneopts = "UT"
-  revision = "0f29369cfe4552d0e4bcddc57cc75f4d7e672a33"
+  revision = "858c2ad4c8b6c5d10852cb89079f6ca1c7309787"
 
 [[projects]]
   digest = "1:3c03b58f57452764a4499c55c582346c0ee78c8a5033affe5bdfd9efd3da5bd1"
