@@ -24,7 +24,7 @@ type AppConfig struct {
 
 func main() {
 	var appConfig AppConfig
-	stdserv.StartStdWorker(&appConfig, func(naPools *napool.NAPools, workerState *stdserv.WorkerState, s *gopcp_stream.StreamServer) map[string]*gopcp.BoxFunc {
+	stdserv.StartStdWorker(&appConfig, nil, func(naPools *napool.NAPools, workState *stdserv.WorkerState, s *gopcp_stream.StreamServer) map[string]*gopcp.BoxFunc {
 		return map[string]*gopcp.BoxFunc{
 			// (constructOAuthUrl, callbackHost, callbackEndPoint)
 			"constructOAuthUrl": gopcp.ToSandboxFun(func(args []interface{}, attachment interface{}, pcpServer *gopcp.PcpServer) (interface{}, error) {

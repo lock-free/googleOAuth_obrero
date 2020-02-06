@@ -1,20 +1,20 @@
-GOPATH := $(shell cd ../../../.. && pwd)
-export GOPATH
+GO111MODULE := on
+export GO111MODULE
 
-init-dep:
-	@dep init
+init:
+	@go mod init
 
-dep:
-	@dep ensure
+clean:
+	@go mod tidy
 
-status-dep:
-	@dep status
+update:
+	@go get -u
 
-update-dep:
-	@dep ensure -update
+run:
+	@go run main.go
 
 test:
-	@echo "test"
+	@go test -v -race
 
 build:
 	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o stage/bin/service .
