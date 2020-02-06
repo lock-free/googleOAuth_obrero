@@ -79,6 +79,8 @@ github.com/lock-free/gopool v0.0.0-20190611034900-329206275cf0 h1:uuCzjJn7tQjlJ1
 github.com/lock-free/gopool v0.0.0-20190611034900-329206275cf0/go.mod h1:t3gxgFxZ4ezO3eR8lbx431lMFBD98x6hB0hBeuAe0nY=
 github.com/lock-free/obrero v0.0.0-20200206144216-754627754a72 h1:88uy0vVQLx58CxHo+F64sCqzfTcTDj7U/1LTly6PUQw=
 github.com/lock-free/obrero v0.0.0-20200206144216-754627754a72/go.mod h1:8PSHPDdZv7npRASHNFZe1+L/1Hs464Tye50rbGxv0xU=
+github.com/lock-free/obrero v0.0.0-20200206150052-3195ea61ea00 h1:gsZs7dVeXW63KUGAQ4gz0Q/U5UflwuPNUrkZv6xVpNA=
+github.com/lock-free/obrero v0.0.0-20200206150052-3195ea61ea00/go.mod h1:8PSHPDdZv7npRASHNFZe1+L/1Hs464Tye50rbGxv0xU=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:xMI15A0UPsDsEKsMN9yxemIoYk6Tm2C1GtYGdfGttqA=
 github.com/rogpeppe/go-internal v1.3.0/go.mod h1:M8bDsm7K2OlrFYOpmOWEs/qY81heoFRclV5y23lUDJ4=
