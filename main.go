@@ -48,8 +48,6 @@ func main() {
 					Scopes:       googleOAuthConfig.Scopes,
 				}
 
-				fmt.Println(goc)
-
 				// construct redirect url
 				return goc.AuthCodeURL("state"), nil
 			}),
