@@ -77,8 +77,6 @@ github.com/lock-free/gopcp_stream v0.0.0-20190920150102-eae38c487ee2 h1:Xe/hNV3O
 github.com/lock-free/gopcp_stream v0.0.0-20190920150102-eae38c487ee2/go.mod h1:ozFeZLAmPWsBa3dB4y6PMgg+bb9/wbYfFhri42ylj/0=
 github.com/lock-free/gopool v0.0.0-20190611034900-329206275cf0 h1:uuCzjJn7tQjlJ1DznRIDePhrTS3QSHCNP7sULz9oESw=
 github.com/lock-free/gopool v0.0.0-20190611034900-329206275cf0/go.mod h1:t3gxgFxZ4ezO3eR8lbx431lMFBD98x6hB0hBeuAe0nY=
-github.com/lock-free/obrero v0.0.0-20200206114106-f610d005dacf h1:mR3KrMWHLDAAsz2StrDI7vc5uCaURv8hicCofKM2VTU=
-github.com/lock-free/obrero v0.0.0-20200206114106-f610d005dacf/go.mod h1:8PSHPDdZv7npRASHNFZe1+L/1Hs464Tye50rbGxv0xU=
 github.com/lock-free/obrero v0.0.0-20200206144216-754627754a72 h1:88uy0vVQLx58CxHo+F64sCqzfTcTDj7U/1LTly6PUQw=
 github.com/lock-free/obrero v0.0.0-20200206144216-754627754a72/go.mod h1:8PSHPDdZv7npRASHNFZe1+L/1Hs464Tye50rbGxv0xU=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
